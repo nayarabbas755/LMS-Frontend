@@ -5,7 +5,8 @@ import 'primeicons/primeicons.css';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { Login } from './components/login/login';
 import { Route, Routes  ,Navigate } from "react-router-dom";
-import { Register } from './components/register/components/Register/Register';
+import { Register } from './components/register/Register';
+
 function App() {
   
   return (

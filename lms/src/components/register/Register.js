@@ -1,9 +1,10 @@
 import React, { useEffect }from 'react'
 import { Button } from 'primereact/button';
-
+import Swal from 'sweetalert2'
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { InputText } from 'primereact/inputtext';
+import authService from '../../services/authService';
 
 export function Register() {
   useEffect(() => {
@@ -31,6 +32,20 @@ export function Register() {
   
     const handleSubmit = (e) => {
       e.preventDefault()
+      if(inputs.password.err || inputs.email.err || inputs.userName.err){
+        Swal.fire({
+          title: 'Error!',
+          text: "Please fill all fields",
+          icon: 'error',
+        })
+      }else{
+        var data = {
+          email: inputs.email.value,
+          password: inputs.password.value,
+          userName:inputs.userName.value
+        }
+       authService.register(data);
+      }
       console.log(inputs)
     }
     const passwordToggle = (e) => {

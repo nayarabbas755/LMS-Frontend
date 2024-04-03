@@ -1,9 +1,10 @@
 import React, { useEffect }from 'react';
 import { Button } from 'primereact/button';
-
+import Swal from 'sweetalert2'
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { InputText } from 'primereact/inputtext';
+import authService from '../../services/authService';
 
 export function Login() {
   useEffect(() => {
@@ -11,7 +12,6 @@ export function Login() {
   }, []);
   const [inputs, setInputs] = useState({ email: {value:"",err:false,errMsg:""}, password: {value:"",err:false,errMsg:""}});
   const [showPassword, setShowPassword] = useState(false);
-  const [message, setShowMessage] = useState(false);
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -28,9 +28,20 @@ export function Login() {
     } }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit =  (e) => {
     e.preventDefault()
-    console.log(inputs)
+    if(inputs.password.err || inputs.email.err){
+      Swal.fire({
+        title: 'Error!',
+        text: "Please fill all fields",
+        icon: 'error',
+      })
+    }else{
+      var data = {
+        email: inputs.email.value,
+        password: inputs.password.value}
+     authService.login(data);
+    }
   }
   const passwordToggle = (e) => {
     if (!showPassword) {
