@@ -34,6 +34,9 @@ body {
 button, input, optgroup, select, textarea{
   font-family: "Mulish", sans-serif !important;
 }
+a{
+  text-decoration: none !important;
+}
 .active{
   color:#06b6d4 !important;
 }
