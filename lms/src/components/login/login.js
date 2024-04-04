@@ -5,10 +5,17 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { InputText } from 'primereact/inputtext';
 import authService from '../../services/authService';
-
 export function Login() {
   useEffect(() => {
     document.title = 'Login';
+    authService.verify().then((isLoggedin)=>{
+      console.log(isLoggedin)
+      if(isLoggedin){
+        window.open("/books","_self")
+      }
+    }).catch((err)=>{
+    });;
+ 
   }, []);
   const [inputs, setInputs] = useState({ email: {value:"",err:false,errMsg:""}, password: {value:"",err:false,errMsg:""}});
   const [showPassword, setShowPassword] = useState(false);

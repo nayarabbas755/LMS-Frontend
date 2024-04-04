@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2'
 import axios from 'axios';
+import { user } from '../helpers/user';
 const authService = {
     login: function(data) {
         axios.post(process.env.REACT_APP_apiUrl+'Auth/login',data)
@@ -15,6 +16,8 @@ const authService = {
                 text: "Please activate your account",
                 icon: 'error',
               })
+        }else{
+            window.open("/books","_self")
         }
     }   
 })
@@ -27,26 +30,28 @@ const authService = {
 });
     },
 
-    verify: function() {
+    verify:async function() {
      var token = localStorage.getItem('token')
      if(token){
-        axios.post(process.env.REACT_APP_apiUrl+'Auth/me',{ headers: {"Authorization" : `Bearer ${token}`} })
+       var promis =  axios.get(process.env.REACT_APP_apiUrl+'Auth/me',{ headers: {"Authorization" : `Bearer ${token}`} })
 
-        .then((data) => {
-          console.log(data)
+       return  promis.then((data) => {
+         
           if(
             data.status==200)
             {
-                
-            }   
+                user.email = data.data.user.email
+                user.role = data.data.user.role
+                user.username = data.data.user.userName
+                user.isLoggedin=true
+                return true;
+            }   else{
+                return false;
+            }
         })
-        .catch((err) => {
-            Swal.fire({
-                title: 'Error!',
-                text: err.response.data.message,
-                icon: 'error',
-              })
-        });
+      
+     }else{
+        return false;
      }
     },
     register: function(data) {
@@ -70,6 +75,10 @@ const authService = {
                 icon: 'error',
               })
         });
+    },
+    logout:function(){
+        localStorage.removeItem("token");
+        window.open("/login","_self")
     }
 };
 
