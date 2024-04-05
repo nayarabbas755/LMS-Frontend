@@ -8,30 +8,80 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import Swal from 'sweetalert2'
 import { Button } from 'primereact/button';
 import bookService from '../../../services/bookService';
-import { Link } from 'react-router-dom';
-import { Dropdown } from 'primereact/dropdown';
+import { Link, useParams } from 'react-router-dom';
 import genreService from '../../../services/genreService';
-export function CreateBook(){
-  const [inputs, setInputs] = useState({
-     title: {value:"",err:false,errMsg:""},
-     isbn: {value:"",err:false,errMsg:""},
-     genre: {value:"",err:false,errMsg:""},
-     publicationDate: {value:"",err:false,errMsg:""},
-     availabilityStatus: {value:true,err:false,errMsg:""},
-     otherDetails: {value:"",err:false,errMsg:""},
-   author: {value:"",err:false,errMsg:""},})
-   const [genres,setGenres]=useState([])
+
+import { Dropdown } from 'primereact/dropdown';
+export function EditBook(){
+    
+    const [inputs, setInputs] = useState({
+        title: {value:"",err:false,errMsg:""},
+        isbn: {value:"",err:false,errMsg:""},
+        genre: {value:"",err:false,errMsg:""},
+        publicationDate: {value:"",err:false,errMsg:""},
+        availabilityStatus: {value:true,err:false,errMsg:""},
+        otherDetails: {value:"",err:false,errMsg:""},
+      author: {value:"",err:false,errMsg:""},})
+    let { id } = useParams();
+  
+    const [genres,setGenres]=useState([])
     useEffect(() => {
-        document.title = 'Create book';
-        authService.verify().then((isLoggedin)=>{
-         
-          if(!isLoggedin){
-            window.open("/login","_self")
-          }
-        }).catch((err)=>{
-          window.open("/login","_self")
-        });
-        
+      document.title = 'Edit Book';
+      authService.verify().then((isLoggedin) => {
+  
+        if (!isLoggedin) {
+          window.open("/login", "_self")
+        }
+      }).catch((err) => {
+        window.open("/login", "_self")
+      });
+  
+      bookService.getBookById(id).then(data => {
+        if (data?.books) {
+            setInputs(values => ({ ...values, ["author"]: {
+                ...values["author"],
+                value:data.books.author,
+                err:false
+              } }))
+            setInputs(values => ({ ...values, ["title"]: {
+                ...values["title"],
+                value:data.books.title,
+                err:false
+              } }))
+            setInputs(values => ({ ...values, ["isbn"]: {
+                ...values["isbn"],
+                value:data.books.isbn,
+                err:false
+              } }))
+            setInputs(values => ({ ...values, ["genre"]: {
+                ...values["genre"],
+                value:data.books.genre,
+                err:false
+              } }))
+            setInputs(values => ({ ...values, ["publicationDate"]: {
+                ...values["publicationDate"],
+                value:new Date(data.books.publicationDate),
+                err:false
+              } }))
+            setInputs(values => ({ ...values, ["availabilityStatus"]: {
+                ...values["availabilityStatus"],
+                value:data.books.availabilityStatus,
+                err:false
+              } }))
+            setInputs(values => ({ ...values, ["otherDetails"]: {
+                ...values["otherDetails"],
+                value:data.books.otherDetails,
+                err:false
+              } }))
+        } 
+  
+      }).catch(err => {
+        Swal.fire({
+          title: 'Error!',
+          text: err.response.data.message,
+          icon: 'error',
+        })
+      })
       genreService.getGenres().then(data => {
         if (data?.genres) {
            setGenres(data.genres)
@@ -44,8 +94,9 @@ export function CreateBook(){
           icon: 'error',
         })
       })
-      }, []);
-      const handleChange = (event) => {
+    }, []);
+  
+    const handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         var isErr = false;
@@ -59,6 +110,7 @@ export function CreateBook(){
           value:value,
           err:isErr
         } }))
+        console.log(inputs)
       }
       const handleSubmit=(e)=>{
         e.preventDefault();
@@ -76,6 +128,7 @@ export function CreateBook(){
             })
           }else{
            const data={
+            "id":id,
               "title": inputs.title.value ,
               "author": inputs.author.value ,
               "isbn": inputs.isbn.value ,
@@ -84,7 +137,7 @@ export function CreateBook(){
               "availabilityStatus": inputs.availabilityStatus.value.toString() ,
               "otherDetails": inputs.otherDetails.value 
             }
-            bookService.createBook(data);
+            bookService.updateBook(data);
           }
       }
       return (
@@ -94,7 +147,7 @@ export function CreateBook(){
         <div className='card'>
 
       <div className='w-100 row p-2'>
-      <h1>Create Book</h1>
+      <h1>Edit Book</h1>
         <div className='col-12 col-md-6 col-lg-4'>
               <div>
                 <label className='fw-500 my-3'>Title</label>
@@ -125,7 +178,7 @@ export function CreateBook(){
                 <Dropdown value={inputs?.genre?.value} placeholder='Genre'  options={genres} optionLabel="genreName"  type='text' name="genre" onChange={handleChange} className='w-100'  />
                 {/* <InputText value={inputs?.genre?.value} placeholder='Genre' type='text' name="genre" onChange={handleChange}  onBlur={handleChange} className='w-100' /> */}
                 <span className='text-danger'>{inputs?.genre?.err?"Genre is required":""}</span>
-              </div>
+               </div>
           
         </div>
         <div className='col-12 col-md-6 col-lg-4'>
@@ -155,9 +208,9 @@ export function CreateBook(){
         </div>
         <div className='text-end'>
               <div>
-              <Button label="Create" type='submit' size="small" raised rounded className='mt-5 rounded' disabled={!inputs.title.value 
+              <Button label="Update" type='submit' size="small" raised rounded className='mt-5 rounded' disabled={!inputs.title.value 
                   ||!inputs.author.value 
-                  ||!inputs.genre.value 
+                  ||!inputs.genre.value
                   ||!inputs.isbn.value 
                   ||!inputs.publicationDate.value 
                   ||!inputs.otherDetails.value 

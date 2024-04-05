@@ -9,14 +9,29 @@ const authService = {
   if(
     data.status==200)
     {
-        localStorage.setItem("token",data.data.user.token)
+      
         if(data.data.user.emailConfirmed==false){
             Swal.fire({
-                title: 'Error!',
-                text: "Please activate your account",
-                icon: 'error',
-              })
+                title: 'Alert!',
+                text: "Please activate your account,click on resend button to recieve activation link",
+                icon: 'warning',
+                showDenyButton: true,
+                confirmButtonText: "Resend",
+                denyButtonText: `Cancel`
+              }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    axios.get(process.env.REACT_APP_apiUrl+'Auth/token-resend/'+data.data.user.id).then((resp)=>{
+                       if( resp.status==200){
+                        Swal.fire("Link sent!", "Please check you spam/inbox folder", "success");
+                       }
+
+                    })
+                
+                } 
+              });
         }else{
+            localStorage.setItem("token",data.data.user.token)
             window.open("/books","_self")
         }
     }   

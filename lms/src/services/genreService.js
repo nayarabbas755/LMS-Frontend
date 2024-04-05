@@ -1,17 +1,16 @@
 import Swal from 'sweetalert2'
 import axios from 'axios';
-const bookService = {
-
-    createBook: function(data) {
+const genreService = {
+    createGenre: function(data) {
         var token = localStorage.getItem('token')
-        axios.post(process.env.REACT_APP_apiUrl+'book/Books/CreateBook',data,{ headers: {"Authorization" : `Bearer ${token}`}})
+        axios.post(process.env.REACT_APP_apiUrl+'genre/Genres/CreateGenre',data,{ headers: {"Authorization" : `Bearer ${token}`}})
 
 .then((data) => {
   if(
     data.status==200)
     {
        
-            window.open("/books","_self")
+            window.open("/genres","_self")
         
     }   
 })
@@ -23,16 +22,16 @@ const bookService = {
       })
 });
 },
-    updateBook: function(data) {
+    updateGenre: function(data) {
         var token = localStorage.getItem('token')
-        axios.put(process.env.REACT_APP_apiUrl+'book/Books/update',data,{ headers: {"Authorization" : `Bearer ${token}`}})
+        axios.put(process.env.REACT_APP_apiUrl+'genre/Genres/update',data,{ headers: {"Authorization" : `Bearer ${token}`}})
 
 .then((data) => {
   if(
     data.status==200)
     {
        
-            window.open("/books","_self")
+            window.open("/genres","_self")
         
     }   
 })
@@ -44,10 +43,10 @@ const bookService = {
       })
 });
 },
-getBooks:async function() {
+    getGenres:async function() {
     var token = localStorage.getItem('token')
   
-      var promis =  axios.get(process.env.REACT_APP_apiUrl+'book/Books/GetBooks',{ headers: {"Authorization" : `Bearer ${token}`} })
+      var promis =  axios.get(process.env.REACT_APP_apiUrl+'genre/Genres/GetGenres',{ headers: {"Authorization" : `Bearer ${token}`} })
 
       return  promis.then((data) => {
         return data.data;
@@ -55,17 +54,18 @@ getBooks:async function() {
      
     
    },
-getBookById:async function(id) {
+    getGenreById:async function(id) {
     var token = localStorage.getItem('token')
   
-      var promis =  axios.get(process.env.REACT_APP_apiUrl+'book/Books/GetBookById/'+id,{ headers: {"Authorization" : `Bearer ${token}`} })
+      var promis =  axios.get(process.env.REACT_APP_apiUrl+'genre/Genres/GetGenreById/'+id,{ headers: {"Authorization" : `Bearer ${token}`} })
 
       return  promis.then((data) => {
         return data.data;
     } )
      
     
-   }
+   },
 }
 
-export default bookService;
+
+export default genreService;

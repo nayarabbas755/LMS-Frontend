@@ -11,6 +11,11 @@ import { Books } from './components/books/Books';
 import authService from './services/authService';
 import { Header } from './components/header/header';
 import {CreateBook} from './components/books/createBook/CreateBook'
+import { ViewBook } from './components/books/viewBook/ViewBook';
+import { EditBook } from './components/books/editBook/editBook';
+import { CreateGenre } from './components/genre/createGenre/createGenre';
+import { Genres } from './components/genre/genres/genres';
+import { EditGenre } from './components/genre/editGenre/editGenre';
 function App() {
  const [loggedin,setLoggedIn]=useState(false)
   useEffect(() => {
@@ -39,7 +44,12 @@ function App() {
   
     <Route path='register' element={<Register/>}  />
     <Route path='books' element={<Books/>}  />
+    <Route path='book/:id/:index' element={<ViewBook/>}  />
+    <Route path='book/edit/:id' element={<EditBook/>}  />
     <Route path='create_book' element={<CreateBook/>}  />
+    <Route path='create_genre' element={<CreateGenre/>}  />
+    <Route path='genres' element={<Genres/>}  />
+    <Route path='genre/edit/:id' element={<EditGenre/>}  />
   </Routes>
   </div>
   );

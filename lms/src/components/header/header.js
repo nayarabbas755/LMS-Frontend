@@ -4,16 +4,20 @@ import { user } from '../../helpers/user';
 
 import { Sidebar } from 'primereact/sidebar';
 import authService from '../../services/authService';
+import { useLocation } from 'react-router-dom';
         
 export function Header() {
-   
+  const location = useLocation();
+  
+  console.log(location.pathname)
     const [visible,setVisible] = useState(false)
     useEffect(()=>{
-
+    
     },[user])
     const logout=()=>{
         authService.logout();
     }
+  
     return (<>
         <div className="w-100 shadow py-3 rounded position-sticky">
           <div className='  d-flex align-items-center justify-content-between px-2'>
@@ -29,10 +33,13 @@ export function Header() {
     <Sidebar visible={visible} onHide={() => setVisible(false)}>
         <h2>LMS</h2>
         <h6><span className='fw-800'>Welcome : </span>{user.username}</h6>
-        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul className="navbar-nav mt-4 me-auto mb-2 mb-lg-0">
         <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="#">Books</a>
+          <a className={(location.pathname.includes("book")?'active':'')+"nav-link "} aria-current="page" href="/books">Books</a>
         </li>
+       {user.role=="Admin"? <li className="nav-item">
+          <a className={(location.pathname.includes("genre")?'active':'')+"nav-link "} aria-current="page" href="/genres">Genres</a>
+        </li>:null}
         <li className="nav-item">
           <a className="nav-link " aria-current="page" href="#">Fines</a>
         </li>

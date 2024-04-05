@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import Moment from 'moment';
-export function DataView({ columns, data }) {
+export function DataView({ columns, data,click }) {
    
 
     useEffect(() => {
@@ -10,9 +10,11 @@ export function DataView({ columns, data }) {
     }, [data]);
     return (
         <div className="card">
-            <DataTable   paginator rows={10} rowsPerPageOptions={[ 10, 25, 50]} value={data} tableStyle={{ minWidth: '50rem' }}>
+            <DataTable   paginator rows={10} rowsPerPageOptions={[ 10, 25, 50]} value={data} tableStyle={{ minWidth: '50rem' }} onRowClick={(data)=>{
+          click?.(data.data.id)
+            }}>
                 {columns.map((col, i) => (
-                    <Column key={col.field} field={col.field} header={col.header} body={(e)=>{
+                    <Column key={col.field} field={col.field} header={col.header} className='cursor-pointer'   body={(e)=>{
                         if(col.type =='date'){
                             return Moment( e[col.field]).format('DD-MM-YYYY')
                         }
