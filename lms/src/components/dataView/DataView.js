@@ -18,8 +18,10 @@ export function DataView({ columns, data,click }) {
                         if(col.type =='date'){
                             return Moment( e[col.field]).format('DD-MM-YYYY')
                         }
-                        if(col.type =='bool'){
-                            return e[col.field]?<span className='green-text'>Available</span>:<span className='text-danger'>Out of stock</span>
+                        if(col.type =='bool' && col.module=='fine'){
+                            return e[col.field]=="2"?<span className='green-text'>Paid</span>:e[col.field]=="1"?<span className='text-danger'>Cancelled</span>:<span className='text-warning'>Pending</span>
+                        }          if(col.type =='bool' && col.module=='users'){
+                            return e[col.field]==true?<span className='green-text'>Active</span>:<span className='text-danger'>Inactive</span>
                         }
                         return e[col.field];
                       

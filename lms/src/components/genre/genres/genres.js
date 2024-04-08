@@ -39,17 +39,17 @@ export function Genres() {
     {
         field:"genreName",
         header:"Genre Name",
-        type:"text"
+        type:"text",  module:"genre"
     },
     {
         field:"description",
         header:"Description",
-        type:"text"
+        type:"text",  module:"genre"
     },
     {
         field:"otherDetails",
         header:"Other Details",
-        type:"text"
+        type:"text",  module:"genre"
     }
  ]
  const handleClick = (value) => {

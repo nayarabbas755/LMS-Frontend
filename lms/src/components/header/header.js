@@ -41,10 +41,11 @@ export function Header() {
           <a className={(location.pathname.includes("genre")?'active':'')+"nav-link "} aria-current="page" href="/genres">Genres</a>
         </li>:null}
         <li className="nav-item">
-          <a className="nav-link " aria-current="page" href="#">Fines</a>
+          <a className={(location.pathname.includes("fine")?'active':'')+"nav-link "} aria-current="page" href="/fines">Fines</a>
         </li>
     {  user.role=="Admin"?  <li className="nav-item">
-          <a className="nav-link " aria-current="page" href="#">Users</a>
+
+    <a className={(location.pathname.includes("user")?'active':'')+"nav-link "} aria-current="page" href="/users">Users</a>
         </li>:null}
         <li className="nav-item">
           <a className="nav-link " aria-current="page" href="#">Reservations</a>
