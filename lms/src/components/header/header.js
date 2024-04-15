@@ -47,11 +47,14 @@ export function Header() {
 
     <a className={(location.pathname.includes("user")?'active':'')+"nav-link "} aria-current="page" href="/users">Users</a>
         </li>:null}
+        
         <li className="nav-item">
-          <a className="nav-link " aria-current="page" href="#">Reservations</a>
+        <a className={(location.pathname.includes("reservation")?'active':'')+"nav-link "} aria-current="page" href="/reservations">Reservations</a>
         </li>
+        
+     
         <li className="nav-item">
-          <a className="nav-link " aria-current="page" href="#">Transactions</a>
+        <a className={(location.pathname.includes("transaction")?'active':'')+"nav-link "} aria-current="page" href="/transactions">Transactions</a>
         </li>
         <li className="nav-item">
           <span className=' nav-link cursor-pointer' onClick={logout}>Logout</span>

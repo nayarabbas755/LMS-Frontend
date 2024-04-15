@@ -92,7 +92,7 @@ export function EditGenre(){
       }
       return (
         <>
-        <Link className=" nav-link px-2 mt-4 d-flex align-items-center " to="/genre"><h4><span className='pi pi-arrow-left'></span> Back</h4></Link>
+        <Link className=" nav-link px-2 mt-4 d-flex align-items-center " to="/genres"><h4><span className='pi pi-arrow-left'></span> Back</h4></Link>
         <form onSubmit={handleSubmit} className=' p-2 mt-2'>
         <div className='card'>
 
