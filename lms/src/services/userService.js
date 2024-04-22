@@ -9,6 +9,15 @@ const UserService = {
         return  promis.then((data) => {
           return data.data;
       } )
+    },
+     deleteUser:async function (id){
+        var token = localStorage.getItem('token')
+  
+        var promis =  axios.put(process.env.REACT_APP_apiUrl+'auth/delete/'+id,{},{ headers: {"Authorization" : `Bearer ${token}`} })
+  
+        return  promis.then((data) => {
+          return data.data;
+      } )
     }
 }
 

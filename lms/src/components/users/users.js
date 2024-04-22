@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import {DataView} from '../dataView/DataView'
 import authService from '../../services/authService';
@@ -8,18 +7,7 @@ import UserService from '../../services/userService';
 export function Users() {
   const [users, setUsers] = useState([])
   
-
-  useEffect(() => {
-    document.title = 'Users';
-    authService.verify().then((isLoggedin) => {
-
-      if (!isLoggedin) {
-        window.open("/login", "_self")
-      }
-    }).catch((err) => {
-      window.open("/login", "_self")
-    });
-
+  const getUser=()=>{
     UserService.getUsers().then(data => {
       if (data?.users) {
       
@@ -35,6 +23,20 @@ export function Users() {
         icon: 'error',
       })
     })
+  }
+
+  useEffect(() => {
+    document.title = 'Users';
+    authService.verify().then((isLoggedin) => {
+
+      if (!isLoggedin) {
+        window.open("/login", "_self")
+      }
+    }).catch((err) => {
+      window.open("/login", "_self")
+    });
+
+    getUser();
   }, []);
  const columns=[
     {
@@ -63,7 +65,17 @@ export function Users() {
     }
  ]
  const handleClick = (value) => {
-
+  if(user.role=="Admin"){
+    UserService.deleteUser(value).then(resp=>{
+     getUser();
+    }).catch(err=>{
+      Swal.fire({
+        title: 'Error!',
+        text: err.response.data.message,
+        icon: 'error',
+      })
+    })
+}
        }
   return (
     <>

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { InputText } from 'primereact/inputtext';
 import authService from '../../services/authService';
+import {Map} from '../Map/map';
 
 export function Register() {
   useEffect(() => {
@@ -45,8 +46,9 @@ export function Register() {
           userName:inputs.userName.value
         }
        authService.register(data);
+
       }
-      console.log(inputs)
+
     }
     const passwordToggle = (e) => {
       if (!showPassword) {
@@ -60,7 +62,8 @@ export function Register() {
     }
     return (
       <div className='w-100 d-flex flex-column min-h-90vh align-items-center justify-content-center'>
-      
+        <div className='row w-100'>
+        <div className='col-12 col-lg-6 my3'>
         <div className='row w-100'>
           <div className='col-12'>
             <div className='text-center'>
@@ -68,7 +71,7 @@ export function Register() {
             </div>
           </div>
   
-          <div className='col-12 col-md-10 col-lg-8 col-xl-6 card mt-3  shadow-lg py-3 mx-auto'>
+          <div className='col-12 col-sm-10  card mt-3  shadow-lg py-3 mx-auto'>
             <form onSubmit={handleSubmit} className=' p-3'>
               <div>
                 <label className='fw-500 my-3'>Email</label>
@@ -112,6 +115,11 @@ export function Register() {
             </form>
   
           </div>
+        </div>
+        </div>
+        <div className='col-12 col-lg-6 mt-5'>
+          <Map/>
+        </div>
         </div>
       </div>
     );
