@@ -67,6 +67,11 @@ export function Users() {
  const handleClick = (value) => {
   if(user.role=="Admin"){
     UserService.deleteUser(value).then(resp=>{
+      Swal.fire({
+        title: 'Success',
+        text: "User deleted",
+        icon: 'success',
+      })
      getUser();
     }).catch(err=>{
       Swal.fire({
