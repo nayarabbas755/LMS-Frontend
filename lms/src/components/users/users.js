@@ -66,20 +66,33 @@ export function Users() {
  ]
  const handleClick = (value) => {
   if(user.role=="Admin"){
-    UserService.deleteUser(value).then(resp=>{
-      Swal.fire({
-        title: 'Success',
-        text: "User deleted",
-        icon: 'success',
-      })
-     getUser();
-    }).catch(err=>{
-      Swal.fire({
-        title: 'Error!',
-        text: err.response.data.message,
-        icon: 'error',
-      })
-    })
+    Swal.fire({
+      title: 'Alert!',
+      text: "Do you really want to delete this user?",
+      icon: 'warning',
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No"
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        UserService.deleteUser(value).then(resp=>{
+          Swal.fire({
+            title: 'Success',
+            text: "User deleted",
+            icon: 'success',
+          })
+         getUser();
+        }).catch(err=>{
+          Swal.fire({
+            title: 'Error!',
+            text: err.response.data.message,
+            icon: 'error',
+          })
+        })
+      } 
+    });
+
 }
        }
   return (
@@ -91,6 +104,7 @@ export function Users() {
 
       <div className=' w-100 px-2 '>
 
+      {user.role == "Admin" ? <h5 className='text-danger'>Click on row to delete user</h5>:null}
         <DataView  columns={columns} data={users} click={handleClick}/>
     
       </div>
